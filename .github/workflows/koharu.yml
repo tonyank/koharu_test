@@ -6,14 +6,13 @@ on:
 jobs:
   run-koharu:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 90
 
     steps:
       - name: Install dependencies
         run: |
-          sudo apt update
-          # 修复：Ubuntu 24.04 替换 libasound2 为 libasound2t64
-          sudo apt install -y libgtk-3-0 libwebkit2gtk-4.1-0 libasound2t64 libnss3
+          apt update
+          apt install -y libgtk-3-0 libwebkit2gtk-4.1-0 libasound2t64 libnss3
 
       - name: Download Koharu
         run: |
