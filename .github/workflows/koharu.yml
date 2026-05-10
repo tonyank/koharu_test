@@ -1,0 +1,31 @@
+name: Run Koharu Headless
+
+on:
+  workflow_dispatch:   # 手动点一下运行
+
+jobs:
+  run-koharu:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-0 libwebkit2gtk-4.1-0 libasound2 libnss3
+
+      - name: Download Koharu
+        run: |
+          wget -O koharu https://github.com/mayocream/koharu/releases/download/v0.25.0/koharu-linux-x64
+          chmod +x koharu
+
+      - name: Expose web service (tmate)
+        uses: mxschmitt/action-tmate@v3
+        with:
+          timeout-minutes: 30
+        env:
+          TELEMETRY_CHOICE: false
+
+      - name: Start Koharu
+        run: |
+          ./koharu --headless --host 0.0.0.0 --port 7860
